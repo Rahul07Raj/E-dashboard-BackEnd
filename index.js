@@ -5,7 +5,7 @@ const User = require("./db/User");
 const Product = require("./db/Product");
 
 const Jwt = require("jsonwebtoken");
-const jwtKey = "e-comm";
+const jwtKey = "efcbhdbdmdddhbhdbhdbjdjddnjnjdjfnjdf";
 
 const app = express();
 
@@ -48,13 +48,14 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/add-product",verifyToken, async (req, res) => {
+app.post("/add-product", verifyToken, async (req, res) => {
+  console.log(req.body);
   let product = new Product(req.body);
   let result = await product.save();
-  res.send(result);
+  res.status(200).json(result);
 });
 
-app.get("/products",verifyToken ,async (req, res) => {
+app.get("/products", verifyToken, async (req, res) => {
   let products = await Product.find();
   if (products.length > 0) {
     res.send(products);
@@ -63,12 +64,12 @@ app.get("/products",verifyToken ,async (req, res) => {
   }
 });
 
-app.delete("/product/:id", verifyToken,async (req, res) => {
+app.delete("/product/:id", verifyToken, async (req, res) => {
   let result = await Product.deleteOne({ _id: req.params.id });
   res.send(result);
 });
 
-app.get("/product/:id",verifyToken, async (req, res) => {
+app.get("/product/:id", verifyToken, async (req, res) => {
   let result = await Product.findOne({ _id: req.params.id });
   if (result) {
     res.send(result);
@@ -77,7 +78,7 @@ app.get("/product/:id",verifyToken, async (req, res) => {
   }
 });
 
-app.put("/product/:id",verifyToken, async (req, res) => {
+app.put("/product/:id", verifyToken, async (req, res) => {
   let result = await Product.updateOne(
     { _id: req.params.id },
 
@@ -117,4 +118,6 @@ function verifyToken(req, res, next) {
   }
 }
 
-app.listen(5000);
+app.listen(5000, () => {
+  console.log("serner is running");
+});
